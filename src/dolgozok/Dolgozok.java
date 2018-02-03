@@ -20,6 +20,16 @@ public class Dolgozok {
                 case '1':
                     ab.lista();
                     break;
+                case '2':
+                    System.out.print("Név: ");
+                    nev = bill.nextLine();
+                    System.out.print("Születési idő: ");
+                    szulido = bill.nextLine();
+                    System.out.print("Fizetés: ");
+                    fizetes = bill.nextInt();
+                    bill.nextLine();
+                    ab.uj(nev,szulido,fizetes);
+                    break;
                 default:
                     tovabb = false;
                     break;
