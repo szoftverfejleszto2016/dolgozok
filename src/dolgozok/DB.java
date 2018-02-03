@@ -1,7 +1,9 @@
 package dolgozok;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -89,5 +91,46 @@ public class DB {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }            
+    }
+
+    public void kiir(String fnev) {
+        try (PrintWriter ki = new PrintWriter(fnev)) {
+            try {
+                ekpar = kapcs.prepareStatement("SELECT * FROM adatok");
+                eredmeny = ekpar.executeQuery();
+                while (eredmeny.next()) {
+                    ki.println(eredmeny.getString("nev") + "," +
+                               eredmeny.getDate("szulido") + "," +
+                               eredmeny.getInt("fizetes"));
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }            
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void emel(int szazalek) {
+        String s = "UPDATE adatok SET fizetes = (1+?/100)*fizetes;";
+        try {
+            ekpar = kapcs.prepareStatement(s);
+            ekpar.setInt(1, szazalek);
+            int sorok = ekpar.executeUpdate();
+            System.out.println(sorok + " sor módosítva.");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());            
+        }        
+    }
+
+    public void torol() {
+        String s = "DELETE FROM adatok;";
+        try {
+            ekpar = kapcs.prepareStatement(s);
+            int sorok = ekpar.executeUpdate();
+            System.out.println(sorok + " sor törölve");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage()); 
+        }
     }    
 }
