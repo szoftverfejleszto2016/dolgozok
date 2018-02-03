@@ -18,7 +18,7 @@ public class Dolgozok {
             String v = bill.nextLine();
             switch (v.charAt(0)) {
                 case '1':
-                    //ab.lista();
+                    ab.lista();
                     break;
                 default:
                     tovabb = false;
